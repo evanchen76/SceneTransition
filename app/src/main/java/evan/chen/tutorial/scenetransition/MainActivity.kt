@@ -11,7 +11,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var transitionManagerForScene2: TransitionManager
 
     private var sceneRoot: ViewGroup? = null
 
@@ -25,14 +24,12 @@ class MainActivity : AppCompatActivity() {
 
         sceneRoot = scene_root
 
-        scene1 = Scene(sceneRoot, sceneRoot!!.findViewById(R.id.container) as ViewGroup)
-
+        scene1 = Scene.getSceneForLayout(sceneRoot, R.layout.scene1, this)
         scene2 = Scene.getSceneForLayout(sceneRoot, R.layout.scene2, this)
 
         scene3 = Scene.getSceneForLayout(sceneRoot, R.layout.scene3, this)
 
-        transitionManagerForScene2 = TransitionInflater.from(this)
-                .inflateTransitionManager(R.transition.scene2_transition_manager, sceneRoot)
+
 
         scene1Button.setOnClickListener {
             // 到Scene1
@@ -42,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         scene2Button.setOnClickListener {
             // TransitionManager.go(scene2)
             // 將Scene2改成由transitionManagerForScene2來決定動畫方式
+            val transitionManagerForScene2 = TransitionInflater.from(this)
+                    .inflateTransitionManager(R.transition.scene2_transition_manager, sceneRoot)
             transitionManagerForScene2.transitionTo(scene2)
         }
 
